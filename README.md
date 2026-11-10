@@ -12,6 +12,8 @@ python -m http.server 8080 --directory dist --bind 127.0.0.1
 
 Open http://localhost:8080. Use localhost or HTTPS so the browser's Web Crypto API is available for demo password hashing.
 
+JavaScript uses native ES modules with explicit imports. Serve the app using the command above; opening `index.html` directly as a file will not load the modules. No bundler is needed.
+
 ## Demo accounts
 
 | Role | Email | Password |
@@ -40,7 +42,16 @@ Photographs are downloaded from Unsplash. Fonts load from Google Fonts, with loc
 
 - `dist/index.html`: page structure and navigation.
 - `dist/styles.css`: responsive layouts and visual design.
-- `dist/app.js`: demo accounts, rentals, filters, and backoffice behavior.
+- `dist/app.js`: startup, demo data initialization, and event registration.
+- `dist/js/auth.js`: sign-up, sign-in, accounts, and password hashing.
+- `dist/js/collection.js`: car cards, filters, date search, and sorting.
+- `dist/js/rentals.js`: booking forms, totals, rental history, and cancellation.
+- `dist/js/admin.js`: backoffice views and car/member management.
+- `dist/js/store.js`: shared demo data, browser storage, sessions, and availability checks.
+- `dist/js/ui.js`: dialogs, notifications, and shared modal state.
+- `dist/js/router.js`: view navigation and header status.
+- `dist/js/events.js`: click, form, change, navigation, and storage event handlers.
+- `dist/js/utils.js`: date, formatting, icon, DOM, and image helpers.
 - `dist/assets/`: local car photography.
 
 To reset the demo, clear this site's browser storage. Demo accounts are recreated on the next visit.
