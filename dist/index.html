@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f3ed">
+  <meta name="description" content="A considered collection of cars. Discover Vellum and find your next escape across Tunisia.">
+  <title>Vellum — A better way to get away.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;550;600;650;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <a class="brand" href="#collection" aria-label="Vellum home"><span class="brand-mark">V</span><span>VELLUM<span class="brand-sub">THE ART OF THE JOURNEY</span></span></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#collection" data-nav="collection">The collection</a>
+      <a href="#rentals" data-nav="rentals">My rentals <span class="nav-dot" id="rental-dot" hidden></span></a>
+      <a href="#about" data-nav="about">Our approach</a>
+    </nav>
+    <div class="header-actions"><span class="location"><span class="tiny-dot"></span> TUNISIA</span><button class="account-button" id="account-button"><span id="account-label">Sign in</span><span aria-hidden="true">↗</span></button></div>
+  </header>
+
+  <main id="main-content">
+    <section id="collection-view" class="view">
+      <section class="hero">
+        <div class="hero-copy"><p class="eyebrow"><span class="short-line"></span> A COLLECTION. A DESTINATION. A FEELING.</p><h1>A better way<br>to <em>get away.</em></h1><p class="hero-description">Exceptional cars. Effortless journeys.<br>A considered collection, for wherever life takes you.</p><a class="button dark" href="#fleet">Find your drive <span>↗</span></a><div class="hero-bottom"><span class="mini-seal">V</span><p>Selected with intention.<br>Delivered with care.</p><span class="since">EST. 2017<br>TUNIS, TUNISIA</span></div></div>
+        <div class="hero-image"><img src="assets/hero.jpg" alt="A black Porsche Panamera on the open road" fetchpriority="high"><div class="hero-image-shade"></div><span class="image-label">THE OPEN ROAD IS CALLING.</span><div class="image-caption"><div><span class="eyebrow">THE SPOTLIGHT / 01</span><h2>Porsche Panamera</h2></div><a href="#fleet" aria-label="Explore the collection" class="round-link">↗</a></div><span class="image-coordinate">36°48′ N &nbsp; 10°10′ E</span></div>
+      </section>
+      <div class="trust-strip"><span><i data-icon="check"></i> Thoughtfully selected cars</span><span><i data-icon="key"></i> A personal handover</span><span><i data-icon="shield"></i> Clear pricing. No surprises.</span><span><i data-icon="support"></i> Here for you, every mile</span></div>
+      <section class="fleet-section" id="fleet"><div class="section-heading"><div><p class="eyebrow">FIND YOUR NEXT CHAPTER</p><h2>The <em>collection.</em><sup id="fleet-count">06</sup></h2></div><p>For the everyday, the extraordinary,<br>and everything in between.</p></div>
+        <form id="search-form" class="search-bar"><label class="search-field"><span class="field-label">PICK-UP LOCATION</span><span class="input-with-icon"><i data-icon="pin"></i><select id="location-filter" aria-label="Pick-up location"><option value="">All locations</option><option>Tunis</option><option>La Marsa</option><option>Sousse</option></select></span></label><label class="search-field"><span class="field-label">PICK-UP DATE</span><span class="input-with-icon"><i data-icon="calendar"></i><input id="pickup-date" type="date" required aria-label="Pick-up date"></span></label><label class="search-field"><span class="field-label">RETURN DATE</span><span class="input-with-icon"><i data-icon="calendar"></i><input id="return-date" type="date" required aria-label="Return date"></span></label><button class="button dark search-button" type="submit">Explore cars <span>↗</span></button></form>
+        <div class="filter-row"><div class="category-tabs" role="group" aria-label="Filter cars by category"><button class="active" data-category="all">All cars</button><button data-category="Sedan">Sedans</button><button data-category="SUV">SUVs</button><button data-category="Sport">Sport & luxury</button><button data-category="Compact">Compacts</button></div><div class="results-sort"><span id="result-count">6 cars to discover</span><select id="sort-cars" aria-label="Sort collection"><option value="curated">Curated selection</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select></div></div>
+        <div id="car-grid" class="car-grid"></div><div class="collection-note"><span>A little more freedom, a little less ordinary.</span><span>YOUR NEXT JOURNEY STARTS HERE <span class="long-arrow">↗</span></span></div>
+      </section>
+      <section class="approach-banner"><span class="eyebrow">THE VELLUM WAY</span><h2>More than a rental.<br><em>A good beginning.</em></h2><div><p>The right car changes the journey. We take care of the details, so you can enjoy what lies ahead.</p><a class="text-link" href="#about">Get to know us <span>↗</span></a></div></section>
+    </section>
+    <section id="rentals-view" class="view inner-page" hidden></section>
+    <section id="about-view" class="view inner-page" hidden><p class="eyebrow">THOUGHTFULLY, FROM THE START</p><h1>Good cars.<br><em>Great journeys.</em></h1><p class="intro-text">Vellum is a small collection with a big belief: renting a car should feel as good as driving it. Since 2017, our approach has been personal, considered, and refreshingly simple.</p><div class="approach-grid"><article><span>01 /</span><h2>Chosen with care.</h2><p>From city compacts to a weekend indulgence, every car earns its place in our collection.</p></article><article><span>02 /</span><h2>Made effortless.</h2><p>Choose your dates, reserve your car, and meet us for a personal handover in Tunis, La Marsa, or Sousse.</p></article><article><span>03 /</span><h2>Here for the journey.</h2><p>Transparent daily rates, a clear booking summary, and a team that cares about every mile.</p></article></div><a class="button dark" href="#collection">Discover the collection <span>↗</span></a></section>
+    <section id="admin-view" class="view inner-page" hidden></section>
+  </main>
+
+  <footer class="footer"><a class="brand" href="#collection"><span class="brand-mark">V</span><span>VELLUM</span></a><span>A considered way to go.</span><div><a href="#about">Our approach</a><button id="admin-link" class="footer-link">Admin backoffice ↗</button><span>© <span id="year"></span> Vellum</span></div></footer>
+  <dialog id="modal" aria-labelledby="modal-title"><div id="modal-content"></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
