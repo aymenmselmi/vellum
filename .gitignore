@@ -3,3 +3,17 @@ test-results/
 node_modules/
 *.tar.gz
 *.zip
+.env
+.env.*
+!.env.example
+.local/
+coverage/
+*.log
+*.dump
+*.backup
+backups/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+.verification/

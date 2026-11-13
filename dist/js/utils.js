@@ -1,7 +1,7 @@
 // DOM, formatting, dates, icons, and image helpers.
 export const $ = (selector, root = document) => root.querySelector(selector);
 export const esc = value => String(value ?? '').replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
-export const money = value => new Intl.NumberFormat('en', { maximumFractionDigits: 0 }).format(value);
+export const money = value => new Intl.NumberFormat('fr-TN', { maximumFractionDigits: 0 }).format(value);
 const icons = {
   check:'<path d="m5 12 4 4L19 6"/>',
   key:'<circle cx="8" cy="9" r="4"/><path d="m11 12 8 8m-3-3 3-3m-6 0 3-3"/>',
@@ -18,7 +18,7 @@ export function hydrateIcons() { document.querySelectorAll('[data-icon]').forEac
 export function localDate(offset = 0) { const d = new Date(); d.setDate(d.getDate() + offset); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 export function dayNumber(date) { return Date.parse(date + 'T00:00:00Z') / 86400000; }
 export function validDates(start, end) { return /^\d{4}-\d{2}-\d{2}$/.test(start) && /^\d{4}-\d{2}-\d{2}$/.test(end) && Number.isFinite(dayNumber(start)) && Number.isFinite(dayNumber(end)) && start >= localDate() && end > start; }
-export function prettyDate(date) { return new Date(date + 'T12:00:00').toLocaleDateString('en-GB', { day:'numeric',month:'short',year:'numeric' }); }
+export function prettyDate(date) { return new Date(date + 'T12:00:00').toLocaleDateString('fr-TN', { day:'numeric',month:'short',year:'numeric' }); }
 export function uid() { return crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`; }
 export function photoUrl(value) { if (!value) return 'assets/hero.jpg'; try { const url = new URL(value); return ['https:','http:'].includes(url.protocol) ? url.href : 'assets/hero.jpg'; } catch { return /^assets\/[a-z-]+\.jpg$/.test(value) ? value : 'assets/hero.jpg'; } }
 

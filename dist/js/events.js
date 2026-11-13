@@ -1,6 +1,7 @@
-// Wire user actions to feature modules once, after the initial demo data loads.
+// Wire interface actions to feature modules and refresh server data when a tab regains focus.
 import { $ } from './utils.js';
-import { STORAGE_KEY, user, isAdmin, setSession, setState } from './store.js';
+import { user, isAdmin, reloadState } from './store.js';
+import { api } from './api.js';
 import { modalState, closeModal, toast } from './ui.js';
 import { selectCategory, resetFilters, searchCars, changeCollectionField } from './collection.js';
 import { openAuth, openAccount, submitAuth } from './auth.js';
@@ -9,18 +10,17 @@ import { selectAdminTab, carForm, submitCar, deleteCar, manageMember } from './a
 import { route } from './router.js';
 
 export function registerEvents() {
-  document.addEventListener('click',event=>{
+  document.addEventListener('click',async event=>{
     const categoryButton=event.target.closest('[data-category]');if(categoryButton){selectCategory(categoryButton);return;}
     const button=event.target.closest('[data-action]');if(!button)return;
     const id=button.dataset.id;
-    switch(button.dataset.action) {
+    try { switch(button.dataset.action) {
       case 'close-modal':closeModal();break;
       case 'book':if(!user()){modalState.pendingCar=id;openAuth();}else openBooking(id);break;
       case 'login':modalState.pendingCar=null;openAuth();break;
       case 'auth-switch':openAuth(button.dataset.mode);break;
       case 'admin-login':modalState.pendingCar=null;openAuth('login',true);break;
-      case 'demo-login':$('#auth-email').value=button.dataset.role==='admin'?'admin@vellum.demo':'alex@vellum.demo';$('#auth-password').value='Vellum2026!';$('#auth-form button[type="submit"]').focus();break;
-      case 'logout':setSession(null);closeModal();location.hash='collection';route();toast('You’re signed out. See you on the road.');break;
+      case 'logout':await api('/auth/logout',{method:'POST',body:{}});await reloadState();closeModal();location.hash='collection';route();toast('Vous êtes déconnecté. À bientôt sur la route.');break;
       case 'go-rentals':closeModal();location.hash='rentals';route();break;
       case 'go-admin':closeModal();location.hash='admin';route();break;
       case 'cancel-order':cancelOrder(id);break;
@@ -31,15 +31,19 @@ export function registerEvents() {
       case 'delete-car':deleteCar(id);break;
       case 'toggle-member':manageMember(id);break;
       case 'delete-member':manageMember(id,true);break;
-      case 'confirm':if(modalState.confirmCallback)modalState.confirmCallback();break;
-    }
+      case 'confirm':button.disabled=true;if(modalState.confirmCallback)await modalState.confirmCallback();break;
+      case 'retry':await reloadState();route();break;
+    } } catch(error) { toast(error.message); }
+    finally { if(button.isConnected)button.disabled=false; }
   });
-  document.addEventListener('submit',event=>{
+  document.addEventListener('submit',async event=>{
     const form=event.target;if(!['auth-form','booking-form','car-form','search-form'].includes(form.id))return;event.preventDefault();
-    if(form.id==='auth-form')submitAuth(form);
-    if(form.id==='booking-form')submitBooking(form);
-    if(form.id==='car-form')submitCar(form);
-    if(form.id==='search-form')searchCars();
+    try {
+      if(form.id==='auth-form')await submitAuth(form);
+      if(form.id==='booking-form')await submitBooking(form);
+      if(form.id==='car-form')await submitCar(form);
+      if(form.id==='search-form')await searchCars();
+    } catch(error) { toast(error.message); }
   });
   document.addEventListener('change',event=>{
     if(event.target.closest('#booking-form'))updateBookingSummary();
@@ -52,5 +56,14 @@ export function registerEvents() {
   $('#admin-link').addEventListener('click',()=>{if(isAdmin()){location.hash='admin';route();}else{modalState.pendingCar=null;openAuth('login',true);}});
   window.addEventListener('hashchange',route);
   window.addEventListener('vellum:refresh',route);
-  window.addEventListener('storage',event=>{if(event.key===STORAGE_KEY&&event.newValue){try{const incoming=JSON.parse(event.newValue);if(Array.isArray(incoming.cars)&&Array.isArray(incoming.members)&&Array.isArray(incoming.orders)){setState(incoming);if(!user())setSession(null);closeModal();route();}}catch{/* Ignore invalid data from another tab. */}}});
+  async function syncAccount() {
+    try {
+      const previousId = user()?.id;
+      await reloadState();
+      if (previousId && !user()) closeModal();
+      if (!$('#modal').open) route();
+    } catch { /* Existing content remains visible when the connection is interrupted. */ }
+  }
+  window.addEventListener('focus', syncAccount);
+  window.addEventListener('vellum:session-expired', syncAccount);
 }
